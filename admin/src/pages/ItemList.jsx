@@ -4,8 +4,8 @@ import {debounce} from "lodash";
 
 const ItemsList = () => {
   const [items, setItems] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");  //for debouceee
-  const [searchInputTerm, setSearchInputTerm] = useState("");   //instant value
+  const [searchTerm, setSearchTerm] = useState("");  
+  const [searchInputTerm, setSearchInputTerm] = useState("");  
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -68,29 +68,29 @@ const ItemsList = () => {
     return total.toFixed(2);
   };
 
-  const handleUpdate = async (item) => {
-    try {
-      const res = await axios.put(
-        `http://localhost:8080/api/update/${item._id}`,
-        {
-          quantity: item.quantity,
-          unit: item.unit,
-          rate: item.rate,
-          totalAmount: item.totalAmount,
-        },
-        { withCredentials: true }
-      );
+  // const handleUpdate = async (item) => {
+  //   try {
+  //     const res = await axios.put(
+  //       `http://localhost:8080/api/update/${item._id}`,
+  //       {
+  //         quantity: item.quantity,
+  //         unit: item.unit,
+  //         rate: item.rate,
+  //         totalAmount: item.totalAmount,
+  //       },
+  //       { withCredentials: true }
+  //     );
 
-      if (res.status === 200) {
-        // console.log("updated");
+  //     if (res.status === 200) {
+  //       // console.log("updated");
         
-        alert("Item updated successfully!");
-      }
-    } catch (error) {
-      console.error("Error updating item:", error);
-      alert("Failed to update item.");
-    }
-  };
+  //       alert("Item updated successfully!");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error updating item:", error);
+  //     alert("Failed to update item.");
+  //   }
+  // };
 
   const filteredItems = items.filter((item) =>
     `${item.invoiceNumber} ${item.companyName}`
@@ -101,7 +101,7 @@ const ItemsList = () => {
   return (
     <div className="bg-purple-700 p-6 rounded-lg shadow-md">
 
-      {/* 🔍 Search Box */}
+      {/* Search Box */}
       <div className="mb-4 flex justify-center">
         <input
           type="text"
@@ -127,15 +127,18 @@ const ItemsList = () => {
                   "Item Name",
                   "Company Name",
                   "HSN Code",
-                  "Rate/Price",
+                  "Retail_Price",
+                  "Distributor Price",
+                  "Wholesale Price",
                   "Unit_item",
                   "Quantity",
                   "Discount",
                   "GST",
                   "CGST",
                   "SGST",
-                  "Total Amount",
-                  "Actions",
+                  "MRP",
+                  "Amount",
+                  // "Actions"
                 ].map((header) => (
                   <th key={header} className="border border-gray-300 p-2">
                     {header}
@@ -150,20 +153,24 @@ const ItemsList = () => {
                   <td className="border border-gray-300 p-2">{item.invoiceNumber}</td>
                   <td className="border border-gray-300 p-2">{item.invoiceDate}</td>
                   <td className="border border-gray-300 p-2">{item.itemCode}</td>
-                  <td className="border border-gray-300 p-2">{item.name}</td>
+                  <td className="border border-gray-300 p-2">{item.itemName}</td>
                   <td className="border border-gray-300 p-2">{item.companyName}</td>
                   <td className="border border-gray-300 p-2">{item.hsnCode}</td>
                   <td className="border border-gray-300 p-2">
                     <input
                       type="number"
-                      value={item.rate}
+                      disabled={true}
+                      value={item.retailPrice}
                       onChange={(e) => handleChange(item?._id, "rate", e.target.value)}
                       className="w-full p-1 border border-gray-400 rounded text-red-600"
                     />
                   </td>
+                  <td className="border border-gray-300 p-2">{item.distributorPrice}</td>
+                  <td className="border border-gray-300 p-2">{item.wholesalePrice}</td>
                   <td className="border border-gray-300 p-2">
                     <input
                       type="number"
+                      disabled={true}
                       value={item.unit}
                       onChange={(e) => handleChange(item?._id, "unit", e.target.value)}
                       className="w-full p-1 border border-gray-400 rounded text-red-600"
@@ -172,6 +179,7 @@ const ItemsList = () => {
                   <td className="border border-gray-300 p-2">
                     <input
                       type="number"
+                      disabled={true}
                       value={item.quantity}
                       onChange={(e) => handleChange(item?._id, "quantity", e.target.value)}
                       className="w-full p-1 border border-gray-400 rounded text-red-600"
@@ -181,17 +189,18 @@ const ItemsList = () => {
                   <td className="border border-gray-300 p-2">{item.gst}%</td>
                   <td className="border border-gray-300 p-2">{item.cgst}%</td>
                   <td className="border border-gray-300 p-2">{item.sgst}%</td>
+                  <td className="border border-gray-300 p-2">{item.mrp}</td>
                   <td className="border border-gray-300 p-2 font-bold">
-                    {item.totalAmount}
+                    {item.amount}
                   </td>
-                  <td className="border border-gray-300 p-2">
+                  {/* <td className="border border-gray-300 p-2">
                     <button
                       onClick={() => handleUpdate(item)}
                       className="bg-green-500 text-white px-3 py-1 rounded hover:bg-red-400"
                     >
                       Update
                     </button>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             </tbody>
