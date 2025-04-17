@@ -9,7 +9,7 @@ function Sidebar() {
   const [openPurchase, setOpenPurchase] = useState(false);
   return (
     <>
-      <aside className="hidden md:block w-48 h-screen bg-cyan-300 text-black fixed top-0 left-0 shadow-lg">
+      <aside className="hidden md:block w-60 h-screen bg-gray-800 text-white fixed top-0 left-0 shadow-lg">
         <div className="flex flex-col justify-center items-center mb-6">
           <InventoryLogo />
           <h2 className="text-red-500 font-semibold">Industory</h2>
@@ -19,7 +19,7 @@ function Sidebar() {
         </h2>
         <div className="flex justify-center items-center mb-5 underline border-dotted p-1">
           <HomeIcon />
-          <h2 className="pl-2 font-bold text-black text-xl">
+          <h2 className="pl-2 font-bold text-xl">
             <Link to={`/`}>Dashboard</Link>
           </h2>
         </div>

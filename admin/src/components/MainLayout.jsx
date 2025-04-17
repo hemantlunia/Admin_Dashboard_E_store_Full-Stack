@@ -9,7 +9,7 @@ function MainLayout() {
         <div>
           <Sidebar />
         </div>
-        <div className="flex-1 md:ml-48 overflow-y-auto p-6 bg-pink-200">
+        <div className="flex-1 md:ml-60 overflow-y-auto p-2 bg-gray-300">
           {<Outlet />}
         </div>
       </div>
