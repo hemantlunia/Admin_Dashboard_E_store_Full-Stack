@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const AddItem = () => {
+  let BACKEND_URL = import.meta.env.MODE ==="development" ? "http://localhost:8080/api":"/api"
   const [formData, setFormData] = useState({
     itemCode: "",
     itemName: "",
@@ -27,7 +28,7 @@ const AddItem = () => {
   }, []);
 
   const fetchItems = async () => {
-    const res = await axios.get("http://localhost:8080/api/itemdetails/get");
+    const res = await axios.get(`${BACKEND_URL}/itemdetails/get`);
     // console.log(res?.data?.data);
 
     setItems(res?.data?.data || []);
@@ -47,13 +48,13 @@ const AddItem = () => {
 
     if (editItemId) {
       await axios.put(
-        `http://localhost:8080/api/itemdetails/update/${editItemId}`,
+        `${BACKEND_URL}/itemdetails/update/${editItemId}`,
         formData,
         { withCredentials: true }
       );
       setEditItemId(null);
     } else {
-      await axios.post("http://localhost:8080/api/itemdetails/add", formData, {
+      await axios.post(`${BACKEND_URL}/itemdetails/add`, formData, {
         headers: {
           "Content-Type": "application/json",
         },
