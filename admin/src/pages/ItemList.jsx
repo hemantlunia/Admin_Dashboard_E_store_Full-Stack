@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import {debounce} from "lodash";
 
 const ItemsList = () => {
+  let BACKEND_URL = import.meta.env.MODE ==="development" ? "http://localhost:8080/api":"/api"
+
   const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");  
   const [searchInputTerm, setSearchInputTerm] = useState("");  
@@ -10,7 +12,7 @@ const ItemsList = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/api/get");
+        const res = await axios.get(`${BACKEND_URL}/get`);
         const resdata = res?.data?.data;
         setItems(resdata);
       } catch (error) {

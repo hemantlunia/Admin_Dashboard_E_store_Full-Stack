@@ -4,6 +4,8 @@ import axios from "axios";
 import handlePdfMaker from "../constants/PdfMaker";
 
 const AddPurchase = () => {
+  let BACKEND_URL = import.meta.env.MODE ==="development" ? "http://localhost:8080/api":"/api"
+
   const [items, setItems] = useState([]);
   const [itemList, setItemList] = useState([]);
   const [formData, setFormData] = useState({
@@ -35,7 +37,7 @@ const AddPurchase = () => {
     }));
 
     axios
-      .get("http://localhost:8080/api/itemdetails/get")
+      .get(`${BACKEND_URL}/itemdetails/get`)
       .then((res) => setItemList(res?.data?.data))
       .catch((err) => console.error("Fetch error:", err));
   }, []);
@@ -127,7 +129,7 @@ const AddPurchase = () => {
     try {
         // console.log(items);
         
-      await axios.post("http://localhost:8080/api/add", items, {
+      await axios.post(`${BACKEND_URL}/add`, items, {
         headers: {
           "Content-Type": "application/json",
         },
