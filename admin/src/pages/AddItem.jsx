@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const AddItem = () => {
-  let BACKEND_URL = import.meta.env.MODE ==="development" ? "http://localhost:8080/api":"/api"
+  let BACKEND_URL =
+    import.meta.env.VITE_MODE === "development"
+      ? "http://localhost:8080/api"
+      : "/api";
   const [formData, setFormData] = useState({
     itemCode: "",
     itemName: "",
@@ -41,6 +44,9 @@ const AddItem = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // console.log(formData);
+    // return;
+    
     const allFilled = Object.values(formData).every((v) => v !== "");
 
     if (!allFilled) return alert("Please fill in all fields.");
@@ -91,8 +97,9 @@ const AddItem = () => {
     items &&
     items?.filter(
       (item) =>
-        item.hsnCode.toLowerCase().includes(search.toLowerCase()) ||
-        item.brandName.toLowerCase().includes(search.toLowerCase())
+        item.itemCode.toLowerCase().includes(search.toLowerCase()) ||
+        item.brandName.toLowerCase().includes(search.toLowerCase()) ||
+        item.itemName.toLowerCase().includes(search.toLowerCase())
     );
 
   const handleChangeselectunit = (e) => {
@@ -109,23 +116,24 @@ const AddItem = () => {
         onSubmit={handleSubmit}
         className="space-y-4 mb-6 bg-gray-200 p-5 rounded shadow-lg shadow-white"
       >
-        {/* First row with 2 items only */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-4 gap-4">
           {[
             {
               label: "Item Code",
               name: "itemCode",
               placeholder: "item code...",
               type: "text",
+              span: "",
             },
             {
               label: "Item Name",
               name: "itemName",
               placeholder: "item name...",
               type: "text",
+              span: "col-span-3",
             },
           ].map((field) => (
-            <div key={field.name}>
+            <div key={field.name} className={field.span}>
               <label className="block text-sm font-medium mb-1">
                 {field.label}
               </label>
@@ -145,12 +153,6 @@ const AddItem = () => {
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {[
             {
-              label: "Brand Name",
-              name: "brandName",
-              placeholder: "brand name...",
-              type: "text",
-            },
-            {
               label: "Unit",
               name: "unit",
               placeholder: "unit...",
@@ -167,6 +169,12 @@ const AddItem = () => {
               name: "gst",
               placeholder: "gst(%)...",
               type: "Number",
+            },
+            {
+              label: "Brand Name",
+              name: "brandName",
+              placeholder: "brand name...",
+              type: "text",
             },
             {
               label: "CNF",
@@ -193,15 +201,15 @@ const AddItem = () => {
               type: "Number",
             },
             {
-              label: "Retailer Margin",
-              name: "retailerMargin",
-              placeholder: "retailerMargin...",
-              type: "Number",
-            },
-            {
               label: "Retailer",
               name: "retailer",
               placeholder: "retailer...",
+              type: "Number",
+            },
+            {
+              label: "Retailer Margin",
+              name: "retailerMargin",
+              placeholder: "retailerMargin...",
               type: "Number",
             },
             {
@@ -261,7 +269,7 @@ const AddItem = () => {
       <div className="mb-4">
         <input
           type="text"
-          placeholder="Search by HSN or Brand"
+          placeholder="Search by itemCode or itemName or BrandName"
           className="w-full px-3 py-2 rounded-md focus:ring focus:ring-sky-400 focus:outline-none"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -275,10 +283,10 @@ const AddItem = () => {
               <th className="p-2 border border-gray-300">Sr. No</th>
               <th className="p-2 border border-gray-300">Item Code</th>
               <th className="p-2 border border-gray-300">Item Name</th>
-              <th className="p-2 border border-gray-300">Brand</th>
               <th className="p-2 border border-gray-300">Unit</th>
               <th className="p-2 border border-gray-300">HSN Code</th>
               <th className="p-2 border border-gray-300">GST</th>
+              <th className="p-2 border border-gray-300">Brand</th>
               <th className="p-2 border border-gray-300">CNF</th>
               <th className="p-2 border border-gray-300">CNF Margin</th>
               <th className="p-2 border border-gray-300">Distributor</th>
@@ -306,10 +314,10 @@ const AddItem = () => {
                   <td className="p-2 border ">{index + 1}</td>
                   <td className="p-2 border">{item.itemCode}</td>
                   <td className="p-2 border">{item.itemName}</td>
-                  <td className="p-2 border">{item.brandName}</td>
                   <td className="p-2 border">{item.unit}</td>
                   <td className="p-2 border">{item.hsnCode}</td>
                   <td className="p-2 border">{item.gst}</td>
+                  <td className="p-2 border">{item.brandName}</td>
                   <td className="p-2 border">{item.cnf}</td>
                   <td className="p-2 border">{item.cnfMargin}</td>
                   <td className="p-2 border">{item.distributor}</td>

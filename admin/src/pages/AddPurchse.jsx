@@ -4,7 +4,7 @@ import axios from "axios";
 import handlePdfMaker from "../constants/PdfMaker";
 
 const AddPurchase = () => {
-  let BACKEND_URL = import.meta.env.MODE ==="development" ? "http://localhost:8080/api":"/api"
+  let BACKEND_URL = import.meta.env.VITE_MODE ==="development" ? "http://localhost:8080/api":"/api"
 
   const [items, setItems] = useState([]);
   const [itemList, setItemList] = useState([]);
